@@ -1,0 +1,98 @@
+/* =============================================================================
+   Edwin RPG Game Engine – Main Stylesheet
+   Imports Bootstrap and adds game-specific overrides.
+   ============================================================================= */
+
+/* Import Bootstrap */
+@import 'bootstrap/dist/css/bootstrap.min.css';
+
+/* ── Root Variables ─────────────────────────────────────────────────────────── */
+:root {
+  --edwin-font-mono: 'Courier New', Courier, monospace;
+  --edwin-color-bg: #1a1a2e;
+  --edwin-color-surface: #16213e;
+  --edwin-color-accent: #e94560;
+  --edwin-color-text: #eaeaea;
+  --edwin-color-muted: #8a8a9a;
+  --edwin-border-radius: 0.5rem;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────────── */
+.edwin-game-container {
+  font-family: var(--edwin-font-mono);
+  background-color: var(--edwin-color-bg);
+  color: var(--edwin-color-text);
+  min-height: 100vh;
+}
+
+.edwin-game-container .card {
+  background-color: var(--edwin-color-surface);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-radius: var(--edwin-border-radius);
+  color: var(--edwin-color-text);
+}
+
+.edwin-game-container .card-header {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-bottom-color: rgba(255, 255, 255, 0.1);
+}
+
+/* ── Location View ──────────────────────────────────────────────────────────── */
+.location__name {
+  color: var(--edwin-color-accent);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.location__description {
+  line-height: 1.7;
+  color: var(--edwin-color-text);
+}
+
+/* ── Event Log ──────────────────────────────────────────────────────────────── */
+.event-log__list {
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.event-log__entry {
+  font-size: 0.85rem;
+  background-color: transparent;
+  color: var(--edwin-color-text);
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+/* ── NPC Dialog ─────────────────────────────────────────────────────────────── */
+.edwin-npc-dialog .modal-content {
+  background-color: var(--edwin-color-surface);
+  color: var(--edwin-color-text);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.npc-dialog__text {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+/* ── Inventory ──────────────────────────────────────────────────────────────── */
+.edwin-inventory .list-group-item {
+  background-color: transparent;
+  color: var(--edwin-color-text);
+  border-color: rgba(255, 255, 255, 0.07);
+}
+
+/* ── List Group Overrides ───────────────────────────────────────────────────── */
+.edwin-game-container .list-group-item {
+  background-color: transparent;
+  color: var(--edwin-color-text);
+}
+
+/* ── Button Overrides ───────────────────────────────────────────────────────── */
+.edwin-game-container .btn-outline-secondary {
+  color: var(--edwin-color-text);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.edwin-game-container .btn-outline-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
