@@ -1,25 +1,45 @@
-version: '3.9'
-
 services:
-  edwin-dev:
+  base: &base
+    image: edwin:dev
+    env_file: .env
+    volumes:
+      - ./source:/home/node/app
+      - ./docker_volumes/node_modules:/home/node/app/node_modules
+
+  base_build:
+    <<: *base
+    container_name: edwin_build
     build:
       context: .
       dockerfile: dockerfiles/dev_edwin/Dockerfile
-    container_name: edwin-dev
-    ports:
-      # Vite dev server
-      - '5173:5173'
-    volumes:
-      # Mount source code for hot-reload; exclude node_modules
-      - ./source:/home/node/app
-      - ./docker_volumes/node_modules:/home/node/app/node_modules
+    command: echo done
+
+  edwin_dev:
+    <<: *base
+    container_name: edwin_dev
+    depends_on: [base_build]
     environment:
       - NODE_ENV=development
     stdin_open: true
     tty: true
-    healthcheck:
-      test: ['CMD', 'wget', '-qO-', 'http://localhost:5173']
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
+    command: /bin/bash
+
+  basic_example:
+    <<: *base
+    container_name: basic_example
+    depends_on: [base_build]
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3000:3000"
+    command: npx vite examples/basic-rpg --config vite.config.js --host 0.0.0.0 --port 3000
+
+  advanced_example:
+    <<: *base
+    container_name: advanced_example
+    depends_on: [base_build]
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3010:3010"
+    command: npx vite examples/advanced-rpg --config vite.config.js --host 0.0.0.0 --port 3010

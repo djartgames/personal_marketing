@@ -33,7 +33,7 @@ const innkeeperDialogue = new Interaction({
       id: 'room',
       text: "That'll be 5 gold coins. We've a cosy spot by the fire.",
       options: [
-        { label: 'Sounds good, I'll take it.', next: 'farewell' },
+        { label: "Sounds good, I'll take it.", next: 'farewell' },
         { label: 'Maybe later.', next: 'intro' },
       ],
     },
