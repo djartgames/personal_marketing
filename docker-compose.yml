@@ -25,21 +25,33 @@ services:
     command: /bin/bash
 
   basic_example:
-    <<: *base
+    image: edwin:dev
     container_name: basic_example
     depends_on: [base_build]
     environment:
       - NODE_ENV=development
     ports:
       - "3000:3000"
-    command: npx vite examples/basic-rpg --config vite.config.js --host 0.0.0.0 --port 3000
+    volumes:
+      - ./examples/basic-rpg:/home/node/app
+      - ./source:/home/node/app/edwin
+      - ./docker_volumes/node_modules:/home/node/app/node_modules
+    stdin_open: true
+    tty: true
+    command: npx vite --host 0.0.0.0 --port 3000
 
   advanced_example:
-    <<: *base
+    image: edwin:dev
     container_name: advanced_example
     depends_on: [base_build]
     environment:
       - NODE_ENV=development
     ports:
       - "3010:3010"
-    command: npx vite examples/advanced-rpg --config vite.config.js --host 0.0.0.0 --port 3010
+    volumes:
+      - ./examples/advanced-rpg:/home/node/app
+      - ./source:/home/node/app/edwin
+      - ./docker_volumes/node_modules:/home/node/app/node_modules
+    stdin_open: true
+    tty: true
+    command: npx vite --host 0.0.0.0 --port 3010

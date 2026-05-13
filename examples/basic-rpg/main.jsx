@@ -1,18 +1,18 @@
 /**
- * @fileoverview Advanced RPG – React application root.
+ * @fileoverview Basic RPG – React application root.
  */
 
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { GameContainer } from '../../src/index.js';
-import { game, manager, unlockVaultAction } from './game.js';
+import { GameContainer } from 'edwin';
+import { game, manager } from './game.js';
 
 function App() {
   useEffect(() => {
-    game.start(true);
+    game.start(true); // attempt to load a previous save
   }, []);
 
-  return <GameContainer manager={manager} actions={[unlockVaultAction]} />;
+  return <GameContainer manager={manager} />;
 }
 
 const root = createRoot(document.getElementById('root'));

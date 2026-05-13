@@ -13,7 +13,7 @@ import {
   Action,
   Interaction,
   GameStateManager,
-} from '../../src/index.js';
+} from 'edwin';
 
 // ── Items ────────────────────────────────────────────────────────────────────
 

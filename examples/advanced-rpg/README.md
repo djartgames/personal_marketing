@@ -10,11 +10,10 @@ A more complex Edwin RPG demonstrating:
 
 ## Running
 
-From the `source/` directory:
+Start the container with Docker Compose:
 
 ```bash
-npm install
-npm run dev
+docker-compose up advanced_example
 ```
 
-Then open the URL shown in the terminal and navigate to `examples/advanced-rpg/index.html`.
+Then open [http://localhost:3010](http://localhost:3010) in your browser.

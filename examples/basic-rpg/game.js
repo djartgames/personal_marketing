@@ -5,7 +5,7 @@
  * a simple two-step dialogue.
  */
 
-import { Game, Location, NPC, Item, Interaction, GameStateManager } from '../../src/index.js';
+import { Game, Location, NPC, Item, Interaction, GameStateManager } from 'edwin';
 
 // ── Build the world ──────────────────────────────────────────────────────────
 
