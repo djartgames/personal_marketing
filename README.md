@@ -1,5 +1,9 @@
 # Edwin RPG Game Engine
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/73a57e8c97764403a492f02df32ed4b6)](https://app.codacy.com/gh/darthjee/edwin/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
+[![Build Status](https://circleci.com/gh/darthjee/ediwin.svg?style=shield)](https://circleci.com/gh/darthjee/ediwin)
+
 **Edwin** is a specialized Node.js package designed to streamline the development of text-based Role-Playing Game (RPG) web applications. It provides a comprehensive framework that bridges game logic and web presentation using **React** and **Bootstrap**.
 
 ---
