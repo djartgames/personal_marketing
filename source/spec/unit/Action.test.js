@@ -59,4 +59,9 @@ describe('Action', () => {
     expect(json.description).toBe('desc');
     expect(json.execute).toBeUndefined();
   });
+
+  it('isAvailable() returns false when condition throws', () => {
+    const action = makeAction({ condition: () => { throw new Error('boom'); } });
+    expect(action.isAvailable({})).toBe(false);
+  });
 });

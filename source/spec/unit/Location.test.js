@@ -53,6 +53,11 @@ describe('Location', () => {
     expect(loc.npcs).toHaveLength(0);
   });
 
+  it('removeNPC() returns null when NPC not found', () => {
+    const loc = makeLocation();
+    expect(loc.removeNPC('ghost')).toBeNull();
+  });
+
   it('lock() / unlock()', () => {
     const loc = makeLocation();
     loc.lock();

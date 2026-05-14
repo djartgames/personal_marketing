@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { Game } from '../../lib/entities/Game.js';
 import { Item } from '../../lib/entities/Item.js';
 import { Location } from '../../lib/entities/Location.js';
@@ -92,5 +92,102 @@ describe('Game', () => {
   it('start() throws if startLocation not set', () => {
     const g = new Game({ id: 'g2', title: 'G2' });
     expect(() => g.start()).toThrow('setStartLocation');
+  });
+
+  it('save() persists state to localStorage', () => {
+    game.start();
+    game.setFlag('visited', true);
+    game.save();
+    const raw = localStorage.getItem('edwin_save_test_game');
+    expect(raw).not.toBeNull();
+    const state = JSON.parse(raw);
+    expect(state.flags.visited).toBe(true);
+    expect(state.currentLocationId).toBe('start');
+  });
+
+  it('load() restores state from localStorage', () => {
+    game.start();
+    game.moveTo('next');
+    game.setFlag('key', 42);
+    game.save();
+
+    const fresh = new Game({ id: 'test_game', title: 'Test Game' });
+    const start = new Location({ id: 'start', name: 'Start Room' });
+    const next = new Location({ id: 'next', name: 'Next Room' });
+    fresh.addLocation(start);
+    fresh.addLocation(next);
+    fresh.setStartLocation('start');
+
+    const loaded = fresh.load();
+    expect(loaded).toBe(true);
+    expect(fresh._currentLocationId).toBe('next');
+    expect(fresh.flags.key).toBe(42);
+  });
+
+  it('load() returns false when no save exists', () => {
+    localStorage.clear();
+    const result = game.load();
+    expect(result).toBe(false);
+  });
+
+  it('deleteSave() removes the save from localStorage', () => {
+    game.start();
+    game.save();
+    expect(localStorage.getItem('edwin_save_test_game')).not.toBeNull();
+    game.deleteSave();
+    expect(localStorage.getItem('edwin_save_test_game')).toBeNull();
+  });
+
+  it('start() loads save when loadSave is true', () => {
+    game.start();
+    game.moveTo('next');
+    game.save();
+
+    const fresh = new Game({ id: 'test_game', title: 'Test Game' });
+    const start = new Location({ id: 'start', name: 'Start Room' });
+    const next = new Location({ id: 'next', name: 'Next Room' });
+    fresh.addLocation(start);
+    fresh.addLocation(next);
+    fresh.setStartLocation('start');
+    fresh.start(true);
+
+    expect(fresh._currentLocationId).toBe('next');
+  });
+
+  it('toJSON() serializes world metadata', () => {
+    game.start();
+    const json = game.toJSON();
+    expect(json.id).toBe('test_game');
+    expect(json.title).toBe('Test Game');
+    expect(json.startLocationId).toBe('start');
+    expect(json.locations).toHaveLength(2);
+  });
+
+  it('save() logs error and does not throw when localStorage fails', () => {
+    game.start();
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const origStorage = global.localStorage;
+    Object.defineProperty(global, 'localStorage', {
+      value: { setItem: () => { throw new Error('quota exceeded'); }, getItem: () => null, removeItem: () => {} },
+      configurable: true,
+    });
+    expect(() => game.save()).not.toThrow();
+    expect(error).toHaveBeenCalled();
+    Object.defineProperty(global, 'localStorage', { value: origStorage, configurable: true });
+    error.mockRestore();
+  });
+
+  it('load() returns false and logs error when localStorage throws', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const origStorage = global.localStorage;
+    Object.defineProperty(global, 'localStorage', {
+      value: { getItem: () => { throw new Error('access denied'); }, setItem: () => {}, removeItem: () => {} },
+      configurable: true,
+    });
+    const result = game.load();
+    expect(result).toBe(false);
+    expect(error).toHaveBeenCalled();
+    Object.defineProperty(global, 'localStorage', { value: origStorage, configurable: true });
+    error.mockRestore();
   });
 });

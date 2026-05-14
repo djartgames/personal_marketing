@@ -87,4 +87,26 @@ describe('Interaction', () => {
     interaction.choose(1);
     expect(() => interaction.choose(0)).toThrow('already complete');
   });
+
+  it('choose() throws when option index is out of range', () => {
+    const interaction = makeInteraction();
+    expect(() => interaction.choose(99)).toThrow('No option at index 99');
+  });
+
+  it('toJSON() returns serializable snapshot', () => {
+    const interaction = makeInteraction();
+    const json = interaction.toJSON();
+    expect(json.id).toBe('test_talk');
+    expect(json.currentStepId).toBe('start');
+    expect(json.isComplete).toBe(false);
+  });
+
+  it('currentStep returns null when stepId not found in map', () => {
+    const interaction = new Interaction({
+      id: 'odd',
+      steps: [{ id: 'only', text: 'Hi', options: [] }],
+      startStepId: 'missing',
+    });
+    expect(interaction.currentStep).toBeNull();
+  });
 });
