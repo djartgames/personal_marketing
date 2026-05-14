@@ -7,18 +7,18 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      '@core': resolve(__dirname, 'src/core'),
-      '@entities': resolve(__dirname, 'src/entities'),
-      '@components': resolve(__dirname, 'src/components'),
-      '@hooks': resolve(__dirname, 'src/hooks'),
-      '@styles': resolve(__dirname, 'src/styles'),
-      '@types': resolve(__dirname, 'src/types'),
+      '@': resolve(__dirname, 'lib'),
+      '@core': resolve(__dirname, 'lib/core'),
+      '@entities': resolve(__dirname, 'lib/entities'),
+      '@components': resolve(__dirname, 'lib/components'),
+      '@hooks': resolve(__dirname, 'lib/hooks'),
+      '@styles': resolve(__dirname, 'lib/styles'),
+      '@types': resolve(__dirname, 'lib/types'),
     },
   },
   build: {
     lib: {
-      entry: resolve(__dirname, 'src/index.js'),
+      entry: resolve(__dirname, 'lib/index.js'),
       name: 'Edwin',
       fileName: (format) => `edwin.${format}.js`,
     },
@@ -36,11 +36,11 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'jsdom',
-    setupFiles: './tests/setup.js',
+    setupFiles: './spec/setup.js',
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html', 'lcov'],
-      exclude: ['node_modules/', 'tests/', 'examples/'],
+      exclude: ['node_modules/', 'spec/', 'examples/'],
     },
   },
 });

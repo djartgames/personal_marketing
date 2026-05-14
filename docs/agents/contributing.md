@@ -74,14 +74,42 @@ A PR is considered complete when:
 
 ### CI Checks
 
-Before a PR is considered complete, all CI checks relevant to the modified parts of the project must pass locally. Run only the checks that correspond to the folders you changed:
+Before a PR is considered complete, all CI checks relevant to the modified parts of the project must pass. Run only the checks that correspond to the folders you changed, **always inside the Docker container**:
 
-| Modified folder | Local commands to run |
-|-----------------|-----------------------|
-| `source/src/`   | `cd source && yarn test:coverage && yarn lint` |
-| `source/tests/` | `cd source && yarn test:coverage` |
+```bash
+# Open a shell in the dev container
+docker-compose run --rm edwin_dev bash
+
+# Then, inside the container:
+```
+
+| Modified folder | Commands to run inside the container |
+|-----------------|--------------------------------------|
+| `source/lib/`   | `yarn coverage && yarn lint`         |
+| `source/spec/`  | `yarn coverage`                      |
 
 If a new package folder is added in the future, its corresponding test and lint commands must be run before merging any changes to that folder.
+
+### Running via Docker
+
+All development commands must be executed inside Docker containers — do not rely on a local Node.js installation.
+
+```bash
+# Build the dev image (only needed once, or after Dockerfile changes)
+docker-compose up base_build
+
+# Open an interactive shell in the source dev container
+docker-compose run --rm edwin_dev bash
+
+# Run tests with coverage
+docker-compose run --rm edwin_dev yarn coverage
+
+# Run linter
+docker-compose run --rm edwin_dev yarn lint
+
+# Fix lint issues automatically
+docker-compose run --rm edwin_dev yarn lint_fix
+```
 
 ## Code Organization
 
@@ -93,7 +121,7 @@ The only exception is the **entrypoint**:
 
 | Application | Entrypoint |
 |-------------|------------|
-| npm package (`source/`) | `source/src/index.js` |
+| npm package (`source/`) | `source/lib/index.js` |
 
 *Example:*
 ```jsx

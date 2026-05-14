@@ -1,0 +1,23 @@
+{
+  "plugins": ["node_modules/jsdoc-babel"],
+  "babel": {
+    "presets": [
+      ["@babel/preset-env", { "targets": { "node": "current" } }],
+      ["@babel/preset-react", { "runtime": "automatic" }]
+    ]
+  },
+  "source": {
+    "include": ["lib"],
+    "includePattern": "\\.(js|jsx)$",
+    "excludePattern": "(node_modules|spec)"
+  },
+  "opts": {
+    "destination": "./docs/api",
+    "recurse": true,
+    "readme": "README.md"
+  },
+  "templates": {
+    "cleverLinks": false,
+    "monospaceLinks": false
+  }
+}

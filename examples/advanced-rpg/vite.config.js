@@ -7,7 +7,7 @@ export default defineConfig({
   resolve: {
     alias: {
       // In the Docker container, Edwin source is mounted at ./edwin
-      edwin: resolve(__dirname, 'edwin/src/index.js'),
+      edwin: resolve(__dirname, 'edwin/lib/index.js'),
     },
   },
 });
