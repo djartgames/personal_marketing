@@ -7,24 +7,18 @@
 
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
-import ActionPanel from './ActionPanel.jsx';
+import { GameContainerController } from './controllers/GameContainerController.js';
 import EventLog from './EventLog.jsx';
+import { GameContainerHelper } from './helpers/GameContainerHelper.jsx';
 import Inventory from './Inventory.jsx';
 import LocationView from './LocationView.jsx';
 import Navigation from './Navigation.jsx';
-import NPCDialog from './NPCDialog.jsx';
 import { useGame } from '../hooks/useGame.js';
 import { useInventory } from '../hooks/useInventory.js';
 import { useLocation } from '../hooks/useLocation.js';
 
-/**
- * Root game container. Pass the GameStateManager and optional action list.
- *
- * @param {object} props
- * @param {import('../core/GameStateManager.js').GameStateManager} props.manager - The active GameStateManager instance.
- * @param {Array<import('../entities/Action.js').Action>} [props.actions=[]] - Player actions to evaluate and display.
- * @returns {JSX.Element}
- */
+const helper = new GameContainerHelper();
+
 function GameContainer({ manager, actions = [] }) {
   const { state, moveTo, pickUpItem, dropItem } = useGame(manager);
   const { location, navigate } = useLocation(state, moveTo);
@@ -33,39 +27,25 @@ function GameContainer({ manager, actions = [] }) {
   const [activeNPC, setActiveNPC] = useState(null);
   const [dialogStep, setDialogStep] = useState(null);
 
-  // Filter actions that are currently available
-  const availableActions = actions
-    .filter((a) => a.isAvailable(state))
-    .map((a) => a.toJSON());
+  const controller = new GameContainerController(manager, actions);
+  const availableActions = controller.getAvailableActions(state);
 
   const handleAction = useCallback(
-    (actionId) => {
-      const action = actions.find((a) => a.id === actionId);
-      if (action) {
-        try {
-          action.execute(state);
-        } catch (err) {
-          console.warn('Action error:', err.message);
-        }
-      }
-    },
+    (actionId) => { controller.executeAction(actionId, state); },
     [actions, state]
   );
 
   const handleTalkTo = useCallback((npcData) => {
-    // Look up the live NPC from the game world
-    const liveNPC = manager.game.currentLocation?.npcs.find((n) => n.id === npcData.id);
-    if (!liveNPC) { return; }
-    const step = liveNPC.startDialogue();
-    setActiveNPC(liveNPC);
-    setDialogStep(step);
+    const result = controller.startDialogue(npcData);
+    if (!result) {return;}
+    setActiveNPC(result.npc);
+    setDialogStep(result.step);
   }, [manager]);
 
   const handleDialogChoose = useCallback(
     (optionIndex) => {
-      if (!activeNPC) { return; }
-      const next = activeNPC.respondToChoice(optionIndex, state);
-      setDialogStep(next);
+      if (!activeNPC) {return;}
+      setDialogStep(controller.advanceDialogue(activeNPC, optionIndex, state));
     },
     [activeNPC, state]
   );
@@ -76,20 +56,12 @@ function GameContainer({ manager, actions = [] }) {
   }, []);
 
   const handlePickUp = useCallback(
-    (itemData) => {
-      // Find the live Item object in the current location
-      const liveItem = manager.game.currentLocation?.items.find((i) => i.id === itemData.id);
-      if (liveItem) {
-        manager.game.currentLocation.removeItem(liveItem.id);
-        pickUpItem(liveItem);
-      }
-    },
+    (itemData) => { controller.pickUpItem(itemData, pickUpItem); },
     [manager, pickUpItem]
   );
 
   return (
     <div className="edwin-game-container container-fluid py-3">
-      {/* Header */}
       <header className="row mb-3">
         <div className="col">
           <h1 className="h3 fw-bold">{state.title}</h1>
@@ -97,7 +69,6 @@ function GameContainer({ manager, actions = [] }) {
       </header>
 
       <div className="row g-3">
-        {/* Main content – location + navigation + actions */}
         <main className="col-md-8">
           <div className="card mb-3">
             <div className="card-body">
@@ -118,16 +89,9 @@ function GameContainer({ manager, actions = [] }) {
             </div>
           </div>
 
-          {availableActions.length > 0 && (
-            <div className="card mb-3">
-              <div className="card-body">
-                <ActionPanel actions={availableActions} onAction={handleAction} />
-              </div>
-            </div>
-          )}
+          {helper.renderActionPanel(availableActions, handleAction)}
         </main>
 
-        {/* Sidebar – inventory + event log */}
         <aside className="col-md-4">
           <Inventory items={inventory} onDrop={drop} />
           <div className="mt-3">
@@ -136,15 +100,7 @@ function GameContainer({ manager, actions = [] }) {
         </aside>
       </div>
 
-      {/* NPC Dialogue modal */}
-      {activeNPC && (
-        <NPCDialog
-          npc={{ id: activeNPC.id, name: activeNPC.name, description: activeNPC.description }}
-          currentStep={dialogStep}
-          onChoose={handleDialogChoose}
-          onClose={handleDialogClose}
-        />
-      )}
+      {helper.renderNPCDialog(activeNPC, dialogStep, handleDialogChoose, handleDialogClose)}
     </div>
   );
 }

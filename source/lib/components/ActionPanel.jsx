@@ -3,22 +3,13 @@
  */
 
 import PropTypes from 'prop-types';
+import { ActionPanelHelper } from './helpers/ActionPanelHelper.jsx';
 
-/**
- * Displays available actions as clickable buttons.
- *
- * @param {object} props
- * @param {Array<{id: string, label: string, description?: string}>} props.actions - List of available actions.
- * @param {Function} props.onAction - Called with the action id when a button is clicked.
- * @returns {JSX.Element}
- */
+const helper = new ActionPanelHelper();
+
 function ActionPanel({ actions, onAction }) {
   if (actions.length === 0) {
-    return (
-      <div className="edwin-action-panel">
-        <p className="text-muted fst-italic">Nothing to do here.</p>
-      </div>
-    );
+    return helper.renderEmpty();
   }
 
   return (

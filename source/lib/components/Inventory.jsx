@@ -3,17 +3,11 @@
  */
 
 import PropTypes from 'prop-types';
+import { InventoryHelper } from './helpers/InventoryHelper.jsx';
 
-/**
- * Renders the player's inventory.
- *
- * @param {object} props
- * @param {Array<import('../types/index.js').ItemData>} props.items - Inventory items.
- * @param {Function} [props.onDrop] - Called with itemId when the player drops an item.
- * @param {Function} [props.onUse] - Called with itemId when the player uses an item.
- * @returns {JSX.Element}
- */
 function Inventory({ items, onDrop, onUse }) {
+  const helper = new InventoryHelper({ onDrop, onUse });
+
   return (
     <div className="edwin-inventory card">
       <div className="card-header">
@@ -27,29 +21,11 @@ function Inventory({ items, onDrop, onUse }) {
             <li key={item.id} className="list-group-item d-flex justify-content-between align-items-start">
               <div>
                 <strong>{item.name}</strong>
-                {item.description && (
-                  <p className="mb-0 small text-muted">{item.description}</p>
-                )}
+                {helper.renderItemDescription(item)}
               </div>
               <div className="btn-group btn-group-sm ms-2">
-                {item.isUsable && onUse && (
-                  <button
-                    type="button"
-                    className="btn btn-outline-primary"
-                    onClick={() => onUse(item.id)}
-                  >
-                    Use
-                  </button>
-                )}
-                {onDrop && (
-                  <button
-                    type="button"
-                    className="btn btn-outline-danger"
-                    onClick={() => onDrop(item.id)}
-                  >
-                    Drop
-                  </button>
-                )}
+                {helper.renderUseButton(item)}
+                {helper.renderDropButton(item)}
               </div>
             </li>
           ))}

@@ -51,7 +51,9 @@ Each example folder contains:
 |--------------------|-------------|
 | `core/` | Game engine logic — `GameStateManager` and state transitions. |
 | `entities/` | Core domain classes — `Game`, `Location`, `NPC`, `Item`, `Action`, `Interaction`, `EventSystem`. |
-| `components/` | React UI components (`GameContainer`, scene and dialogue renderers, etc.). |
+| `components/` | React UI components (`GameContainer`, scene and dialogue renderers, etc.). Each component is a thin rendering layer; logic is delegated to helpers and controllers (see below). |
+| `components/helpers/` | JSX-generating helper classes, one per component. Each helper encapsulates markup generation and conditional rendering methods extracted from its parent component. |
+| `components/controllers/` | Plain JS controller classes, one per component that has behaviour logic. Controllers handle non-React business logic (action execution, dialogue flow, item pick-up) and are independently testable without a React renderer. |
 | `hooks/` | Custom React hooks for consuming game state. |
 | `styles/` | CSS and Bootstrap overrides. |
 | `types/` | JSDoc type definitions. |

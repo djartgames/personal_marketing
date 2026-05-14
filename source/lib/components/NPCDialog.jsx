@@ -4,33 +4,21 @@
 
 import PropTypes from 'prop-types';
 import { useState, useCallback } from 'react';
+import { NPCDialogHelper } from './helpers/NPCDialogHelper.jsx';
 
-/**
- * Dialogue UI for interacting with an NPC.
- *
- * @param {object} props
- * @param {{ id: string, name: string, description?: string }} props.npc - The NPC being spoken to (serialized).
- * @param {import('../types/index.js').InteractionStep | null} props.currentStep - Current dialogue step, or null when the conversation has ended.
- * @param {Function} props.onChoose - Called with the zero-based option index when the player selects a choice.
- * @param {Function} props.onClose - Called when the dialogue is dismissed or completed.
- * @returns {JSX.Element | null} Null when there is no active NPC or the dialog is closing.
- */
 function NPCDialog({ npc, currentStep, onChoose, onClose }) {
   const [isClosing, setIsClosing] = useState(false);
 
-  const handleChoose = useCallback(
-    (idx) => {
-      onChoose(idx);
-    },
-    [onChoose]
-  );
+  const handleChoose = useCallback((idx) => { onChoose(idx); }, [onChoose]);
 
   const handleClose = useCallback(() => {
     setIsClosing(true);
     onClose();
   }, [onClose]);
 
-  if (!npc || isClosing) { return null; }
+  if (!npc || isClosing) {return null;}
+
+  const helper = new NPCDialogHelper(handleChoose);
 
   return (
     <div className="edwin-npc-dialog modal d-block" role="dialog" aria-modal="true">
@@ -47,31 +35,8 @@ function NPCDialog({ npc, currentStep, onChoose, onClose }) {
           </div>
 
           <div className="modal-body">
-            {npc.description && (
-              <p className="text-muted fst-italic small mb-3">{npc.description}</p>
-            )}
-
-            {currentStep ? (
-              <>
-                <p className="npc-dialog__text">{currentStep.text}</p>
-                {currentStep.options && currentStep.options.length > 0 && (
-                  <div className="npc-dialog__options d-flex flex-column gap-2 mt-3">
-                    {currentStep.options.map((option, idx) => (
-                      <button
-                        key={idx}
-                        type="button"
-                        className="btn btn-outline-primary text-start"
-                        onClick={() => handleChoose(idx)}
-                      >
-                        {option.label}
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </>
-            ) : (
-              <p className="text-muted fst-italic">The conversation has ended.</p>
-            )}
+            {helper.renderDescription(npc)}
+            {helper.renderCurrentStep(currentStep)}
           </div>
 
           <div className="modal-footer">

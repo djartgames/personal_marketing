@@ -4,35 +4,15 @@
  */
 
 import PropTypes from 'prop-types';
+import { NavigationHelper } from './helpers/NavigationHelper.jsx';
 
-const DIRECTION_LABELS = {
-  north: '↑ North',
-  south: '↓ South',
-  east: '→ East',
-  west: '← West',
-  up: '▲ Up',
-  down: '▼ Down',
-  in: '⤵ In',
-  out: '⤴ Out',
-};
+const helper = new NavigationHelper();
 
-/**
- * Renders navigation buttons for available exits.
- *
- * @param {object} props
- * @param {Object.<string, string>} props.paths - Map of direction → locationId.
- * @param {Function} props.onNavigate - Called with the direction string when the player moves.
- * @returns {JSX.Element}
- */
 function Navigation({ paths, onNavigate }) {
-  const exits = Object.keys(paths);
+  const exits = helper.getExits(paths);
 
   if (exits.length === 0) {
-    return (
-      <div className="edwin-navigation">
-        <p className="text-muted fst-italic">There are no obvious exits.</p>
-      </div>
-    );
+    return helper.renderEmpty();
   }
 
   return (
@@ -46,7 +26,7 @@ function Navigation({ paths, onNavigate }) {
             className="btn btn-outline-secondary btn-sm"
             onClick={() => onNavigate(direction)}
           >
-            {DIRECTION_LABELS[direction] ?? direction}
+            {helper.getLabel(direction)}
           </button>
         ))}
       </div>

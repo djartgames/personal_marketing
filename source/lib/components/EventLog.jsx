@@ -3,17 +3,12 @@
  */
 
 import PropTypes from 'prop-types';
+import { EventLogHelper } from './helpers/EventLogHelper.jsx';
 
-/**
- * Renders the game's event log.
- *
- * @param {object} props
- * @param {Array<{text: string, timestamp: number}>} props.entries - Log entries.
- * @param {number} [props.maxEntries=50] - Maximum number of entries to display (newest first).
- * @returns {JSX.Element}
- */
+const helper = new EventLogHelper();
+
 function EventLog({ entries, maxEntries = 50 }) {
-  const visible = entries.slice(-maxEntries).reverse();
+  const visible = helper.getVisible(entries, maxEntries);
 
   return (
     <div className="edwin-event-log card">
@@ -21,9 +16,7 @@ function EventLog({ entries, maxEntries = 50 }) {
         <h6 className="mb-0">📜 Event Log</h6>
       </div>
       <ul className="list-group list-group-flush event-log__list">
-        {visible.length === 0 && (
-          <li className="list-group-item text-muted fst-italic">No events yet.</li>
-        )}
+        {visible.length === 0 && helper.renderEmpty()}
         {visible.map((entry, idx) => (
           <li key={`${entry.timestamp}-${idx}`} className="list-group-item event-log__entry">
             {entry.text}
