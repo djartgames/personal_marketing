@@ -7,12 +7,20 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - basic_example_jasmine:
+          filters:
+            tags:
+              only: /.*/
+      - advanced_example_jasmine:
+          filters:
+            tags:
+              only: /.*/
       - checks:
           filters:
             tags:
               only: /.*/
       - coverage-final:
-          requires: [jasmine]
+          requires: [jasmine, basic_example_jasmine, advanced_example_jasmine]
           filters:
             tags:
               only: /.*/
@@ -32,6 +40,36 @@ jobs:
       - run:
           name: Upload coverage to Codacy (partial)
           command: cd source; bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -r coverage/lcov.info
+
+  basic_example_jasmine:
+    docker:
+      - image: darthjee/circleci_node:0.2.1
+    steps:
+      - checkout
+      - run:
+          name: Copy Edwin source into example
+          command: cp -r source examples/basic-rpg/edwin
+      - run:
+          name: Install dependencies
+          command: cd examples/basic-rpg; yarn install
+      - run:
+          name: Unit tests (Vitest + coverage)
+          command: cd examples/basic-rpg; npm run coverage
+
+  advanced_example_jasmine:
+    docker:
+      - image: darthjee/circleci_node:0.2.1
+    steps:
+      - checkout
+      - run:
+          name: Copy Edwin source into example
+          command: cp -r source examples/advanced-rpg/edwin
+      - run:
+          name: Install dependencies
+          command: cd examples/advanced-rpg; yarn install
+      - run:
+          name: Unit tests (Vitest + coverage)
+          command: cd examples/advanced-rpg; npm run coverage
 
   checks:
     docker:

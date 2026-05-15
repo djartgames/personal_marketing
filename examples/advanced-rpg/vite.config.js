@@ -10,4 +10,14 @@ export default defineConfig({
       edwin: resolve(__dirname, 'edwin/lib/index.js'),
     },
   },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './spec/setup.js',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html', 'lcov'],
+      exclude: ['node_modules/', 'spec/', 'edwin/'],
+    },
+  },
 });
