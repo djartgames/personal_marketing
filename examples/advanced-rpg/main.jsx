@@ -5,7 +5,7 @@
 import { StrictMode, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { GameContainer } from 'edwin';
-import { game, manager, unlockVaultAction } from './game.js';
+import { game, manager, unlockVaultAction } from './lib/game.js';
 
 function App() {
   useEffect(() => {
