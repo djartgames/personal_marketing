@@ -26,7 +26,7 @@ export function useLocation(gameState, moveTo) {
     () =>
       (direction) => {
         if (!location) { return; }
-        const targetId = location.paths[direction];
+        const targetId = location.paths[direction]?.target;
         if (targetId) { moveTo(targetId); }
       },
     [location, moveTo]

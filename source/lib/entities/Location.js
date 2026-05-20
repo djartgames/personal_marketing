@@ -21,7 +21,7 @@ export class Location {
    * @param {string} config.name - Display name.
    * @param {string} [config.description=''] - Long description shown to the player.
    * @param {string} [config.shortDescription=''] - Brief description for navigation.
-   * @param {object} [config.paths={}] - Map of direction → location id.
+   * @param {object} [config.paths={}] - Map of direction → `{ target, label }`.
    * @param {Array<import('./Item.js').Item>} [config.items=[]] - Items present.
    * @param {Array<import('./NPC.js').NPC>} [config.npcs=[]] - NPCs present.
    * @param {object} [config.properties={}] - Arbitrary metadata.
@@ -54,10 +54,10 @@ export class Location {
    * Add an exit path from this location.
    *
    * @param {string} direction - e.g. 'north', 'south', 'up', 'east'.
-   * @param {string} locationId - Target location id.
+   * @param {{ target: string, label?: string }} path - Path descriptor.
    */
-  addPath(direction, locationId) {
-    this.paths[direction] = locationId;
+  addPath(direction, path) {
+    this.paths[direction] = path;
   }
 
   /**

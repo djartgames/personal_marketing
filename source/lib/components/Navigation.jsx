@@ -26,7 +26,7 @@ function Navigation({ paths, onNavigate }) {
             className="btn btn-outline-secondary btn-sm"
             onClick={() => onNavigate(direction)}
           >
-            {helper.getLabel(direction)}
+            {helper.getLabel(direction, paths[direction])}
           </button>
         ))}
       </div>
@@ -35,7 +35,12 @@ function Navigation({ paths, onNavigate }) {
 }
 
 Navigation.propTypes = {
-  paths: PropTypes.objectOf(PropTypes.string).isRequired,
+  paths: PropTypes.objectOf(
+    PropTypes.shape({
+      target: PropTypes.string.isRequired,
+      label: PropTypes.string,
+    })
+  ).isRequired,
   onNavigate: PropTypes.func.isRequired,
 };
 

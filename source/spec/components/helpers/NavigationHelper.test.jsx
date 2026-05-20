@@ -6,7 +6,11 @@ describe('NavigationHelper', () => {
   describe('getExits', () => {
     it('returns the keys of the paths object', () => {
       const helper = new NavigationHelper();
-      expect(helper.getExits({ north: 'room2', east: 'room3' })).toEqual(['north', 'east']);
+      const paths = {
+        north: { target: 'room2', label: '↑ North' },
+        east: { target: 'room3', label: '→ East' },
+      };
+      expect(helper.getExits(paths)).toEqual(['north', 'east']);
     });
 
     it('returns empty array for empty paths', () => {
@@ -16,16 +20,16 @@ describe('NavigationHelper', () => {
   });
 
   describe('getLabel', () => {
-    it('returns the display label for a known direction', () => {
+    it('returns the label from the path object', () => {
       const helper = new NavigationHelper();
-      expect(helper.getLabel('north')).toBe('↑ North');
-      expect(helper.getLabel('south')).toBe('↓ South');
-      expect(helper.getLabel('in')).toBe('⤵ In');
+      expect(helper.getLabel('north', { target: 'town', label: '↑ North' })).toBe('↑ North');
+      expect(helper.getLabel('deeper', { target: 'forest', label: 'Deeper' })).toBe('Deeper');
     });
 
-    it('returns the direction itself for unknown directions', () => {
+    it('falls back to the direction key when no label is provided', () => {
       const helper = new NavigationHelper();
-      expect(helper.getLabel('upstairs')).toBe('upstairs');
+      expect(helper.getLabel('upstairs', { target: 'attic' })).toBe('upstairs');
+      expect(helper.getLabel('upstairs', undefined)).toBe('upstairs');
     });
   });
 

@@ -17,13 +17,13 @@ describe('Location', () => {
 
   it('addPath() / getExits()', () => {
     const loc = makeLocation();
-    loc.addPath('north', 'town');
+    loc.addPath('north', { target: 'town', label: '↑ North' });
     expect(loc.getExits()).toContain('north');
-    expect(loc.paths.north).toBe('town');
+    expect(loc.paths.north).toEqual({ target: 'town', label: '↑ North' });
   });
 
   it('removePath() removes an exit', () => {
-    const loc = makeLocation({ paths: { north: 'town' } });
+    const loc = makeLocation({ paths: { north: { target: 'town', label: '↑ North' } } });
     loc.removePath('north');
     expect(loc.getExits()).not.toContain('north');
   });

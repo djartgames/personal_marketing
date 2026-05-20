@@ -45,14 +45,14 @@ function buildWorld() {
   const entrance = new Location({
     id: 'entrance',
     name: 'Castle Entrance',
-    paths: { inside: 'hall' },
+    paths: { inside: { target: 'hall', label: 'Inside' } },
     npcs: [guard],
   });
 
   const hall = new Location({
     id: 'hall',
     name: 'Great Hall',
-    paths: { out: 'entrance' },
+    paths: { out: { target: 'entrance', label: '⤴ Out' } },
     items: [potion],
   });
 

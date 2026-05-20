@@ -12,13 +12,19 @@ describe('useLocation', () => {
   });
 
   it('returns the current location', () => {
-    const location = { id: 'tavern', name: 'Tavern', paths: { north: 'town' } };
+    const location = { id: 'tavern', name: 'Tavern', paths: { north: { target: 'town', label: '↑ North' } } };
     const { result } = renderHook(() => useLocation(makeState(location), () => {}));
     expect(result.current.location).toEqual(location);
   });
 
   it('returns exits from location paths', () => {
-    const location = { id: 'hall', name: 'Hall', paths: { north: 'tower', east: 'garden' } };
+    const location = {
+      id: 'hall', name: 'Hall',
+      paths: {
+        north: { target: 'tower', label: '↑ North' },
+        east: { target: 'garden', label: '→ East' },
+      },
+    };
     const { result } = renderHook(() => useLocation(makeState(location), () => {}));
     expect(result.current.exits).toContain('north');
     expect(result.current.exits).toContain('east');
@@ -26,7 +32,7 @@ describe('useLocation', () => {
 
   it('navigate() calls moveTo with target location id', () => {
     const moveTo = vi.fn();
-    const location = { id: 'hall', name: 'Hall', paths: { north: 'tower' } };
+    const location = { id: 'hall', name: 'Hall', paths: { north: { target: 'tower', label: '↑ North' } } };
     const { result } = renderHook(() => useLocation(makeState(location), moveTo));
     result.current.navigate('north');
     expect(moveTo).toHaveBeenCalledWith('tower');
@@ -34,7 +40,7 @@ describe('useLocation', () => {
 
   it('navigate() does nothing when direction not in paths', () => {
     const moveTo = vi.fn();
-    const location = { id: 'hall', name: 'Hall', paths: { north: 'tower' } };
+    const location = { id: 'hall', name: 'Hall', paths: { north: { target: 'tower', label: '↑ North' } } };
     const { result } = renderHook(() => useLocation(makeState(location), moveTo));
     result.current.navigate('south');
     expect(moveTo).not.toHaveBeenCalled();

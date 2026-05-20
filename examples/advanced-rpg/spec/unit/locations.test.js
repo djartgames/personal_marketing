@@ -7,8 +7,8 @@ describe('village', () => {
   });
 
   it('has paths north and east', () => {
-    expect(village.paths.north).toBe('citadel_gate');
-    expect(village.paths.east).toBe('forest_edge');
+    expect(village.paths.north).toEqual({ target: 'citadel_gate', label: '↑ North' });
+    expect(village.paths.east).toEqual({ target: 'forest_edge', label: '→ East' });
   });
 
   it('has the merchant as an NPC', () => {
@@ -23,8 +23,8 @@ describe('forestEdge', () => {
   });
 
   it('has paths west and deeper', () => {
-    expect(forestEdge.paths.west).toBe('village');
-    expect(forestEdge.paths.deeper).toBe('dark_forest');
+    expect(forestEdge.paths.west).toEqual({ target: 'village', label: '← West' });
+    expect(forestEdge.paths.deeper).toEqual({ target: 'dark_forest', label: 'Deeper' });
   });
 
   it('has healing herb and rusty sword as items', () => {
@@ -40,7 +40,7 @@ describe('darkForest', () => {
   });
 
   it('has path back to forest_edge', () => {
-    expect(darkForest.paths.back).toBe('forest_edge');
+    expect(darkForest.paths.back).toEqual({ target: 'forest_edge', label: 'Back' });
   });
 });
 
@@ -50,8 +50,8 @@ describe('citadelGate', () => {
   });
 
   it('has paths south and inside', () => {
-    expect(citadelGate.paths.south).toBe('village');
-    expect(citadelGate.paths.inside).toBe('vault');
+    expect(citadelGate.paths.south).toEqual({ target: 'village', label: '↓ South' });
+    expect(citadelGate.paths.inside).toEqual({ target: 'vault', label: 'Inside' });
   });
 
   it('has the guard as an NPC', () => {
@@ -70,6 +70,6 @@ describe('vault', () => {
   });
 
   it('has path out to citadel_gate', () => {
-    expect(vault.paths.out).toBe('citadel_gate');
+    expect(vault.paths.out).toEqual({ target: 'citadel_gate', label: '⤴ Out' });
   });
 });

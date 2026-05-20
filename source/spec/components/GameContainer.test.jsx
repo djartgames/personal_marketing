@@ -30,11 +30,11 @@ function buildManager(opts = {}) {
     id: 'start',
     name: 'Start Room',
     description: 'A small room.',
-    paths: { north: 'next' },
+    paths: { north: { target: 'next', label: '↑ North' } },
     items: opts.withItem ? [item] : [],
     npcs: opts.withNPC ? [npc] : [],
   });
-  const next = new Location({ id: 'next', name: 'Next Room', paths: { south: 'start' } });
+  const next = new Location({ id: 'next', name: 'Next Room', paths: { south: { target: 'start', label: '↓ South' } } });
   game.addLocation(start);
   game.addLocation(next);
   game.setStartLocation('start');
