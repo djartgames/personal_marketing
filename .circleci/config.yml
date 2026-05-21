@@ -7,20 +7,12 @@ workflows:
           filters:
             tags:
               only: /.*/
-      - basic_example_jasmine:
-          filters:
-            tags:
-              only: /.*/
-      - advanced_example_jasmine:
-          filters:
-            tags:
-              only: /.*/
       - checks:
           filters:
             tags:
               only: /.*/
       - coverage-final:
-          requires: [jasmine, basic_example_jasmine, advanced_example_jasmine]
+          requires: [jasmine]
           filters:
             tags:
               only: /.*/
@@ -32,44 +24,14 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: cd source; yarn install
-      - run:
-          name: Unit tests (Vitest + coverage)
-          command: cd source; npm run coverage
-      - run:
-          name: Upload coverage to Codacy (partial)
-          command: cd source; bash <(curl -Ls https://coverage.codacy.com/get.sh) report --partial -r coverage/lcov.info
-
-  basic_example_jasmine:
-    docker:
-      - image: darthjee/circleci_node:0.2.1
-    steps:
-      - checkout
-      - run:
           name: Copy Edwin source into example
-          command: cp -r source examples/basic-rpg/edwin
+          command: cp -r source personal_marketing/edwin
       - run:
           name: Install dependencies
-          command: cd examples/basic-rpg; yarn install
+          command: cd personal_marketing; yarn install
       - run:
           name: Unit tests (Vitest + coverage)
-          command: cd examples/basic-rpg; npm run coverage
-
-  advanced_example_jasmine:
-    docker:
-      - image: darthjee/circleci_node:0.2.1
-    steps:
-      - checkout
-      - run:
-          name: Copy Edwin source into example
-          command: cp -r source examples/advanced-rpg/edwin
-      - run:
-          name: Install dependencies
-          command: cd examples/advanced-rpg; yarn install
-      - run:
-          name: Unit tests (Vitest + coverage)
-          command: cd examples/advanced-rpg; npm run coverage
+          command: cd personal_marketing; npm run coverage
 
   checks:
     docker:
@@ -78,13 +40,10 @@ jobs:
       - checkout
       - run:
           name: Install dependencies
-          command: cd source; yarn install
+          command: cd personal_marketing; yarn install
       - run:
           name: Lint
-          command: cd source; npm run lint
-      - run:
-          name: Duplication report (JSCPD)
-          command: cd source; npm run report
+          command: cd personal_marketing; npm run lint
 
   coverage-final:
     docker:
