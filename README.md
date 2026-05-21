@@ -1,6 +1,8 @@
 # Personal Marketing
 
 [![Build Status](https://circleci.com/gh/djartgames/personal_marketing.svg?style=shield)](https://circleci.com/gh/djartgames/personal_marketing)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/898ec2d0ad094e6fbf28802ea3d96c7a)](https://app.codacy.com/gh/djartgames/personal_marketing/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 
 A text-based RPG where **Anastacia** must complete marketing jobs to save her struggling company. Built with the [Edwin](source/) engine.
 
