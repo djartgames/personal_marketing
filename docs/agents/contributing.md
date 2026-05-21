@@ -74,47 +74,40 @@ A PR is considered complete when:
 
 ### CI Checks
 
-Before a PR is considered complete, all CI checks relevant to the modified parts of the project must pass. Run only the checks that correspond to the folders you changed, **always inside the Docker container**:
+Before a PR is considered complete, all CI checks relevant to the modified parts of the project must pass.
 
-```bash
-make dev
-# Then, inside the container:
-```
-
-| Modified folder | Commands to run inside the container |
-|-----------------|--------------------------------------|
-| `source/lib/`   | `yarn coverage && yarn lint`         |
-| `source/spec/`  | `yarn coverage`                      |
+| Modified folder | Commands to run |
+|-----------------|-----------------|
+| `personal_marketing/lib/` | `npm run coverage && npm run lint` |
+| `personal_marketing/spec/` | `npm run coverage` |
 
 If a new package folder is added in the future, its corresponding test and lint commands must be run before merging any changes to that folder.
 
 ### Running tests and lint
 
-All development commands must be executed inside the Docker container — do not rely on a local Node.js installation.
-
-Open the dev shell with:
-
-```bash
-make dev
-```
-
-Then, inside the container:
+Run all commands from inside the `personal_marketing/` directory.
 
 ```bash
 # Run tests with coverage report
-yarn coverage
+cd personal_marketing && npm run coverage
 
 # Run the linter
-yarn lint
+cd personal_marketing && npm run lint
 
 # Fix lint issues automatically
-yarn lint_fix
+cd personal_marketing && npm run lint_fix
 ```
 
 To run a single test file:
 
 ```bash
-yarn test source/spec/path/to/YourFile.test.js
+cd personal_marketing && npx vitest run spec/path/to/YourFile.test.js
+```
+
+**Note:** Edwin must be available at `personal_marketing/edwin/` before running tests. If it is not present, copy it first:
+
+```bash
+cp -r source personal_marketing/edwin
 ```
 
 ## Code Organization
