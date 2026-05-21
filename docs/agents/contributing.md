@@ -77,9 +77,7 @@ A PR is considered complete when:
 Before a PR is considered complete, all CI checks relevant to the modified parts of the project must pass. Run only the checks that correspond to the folders you changed, **always inside the Docker container**:
 
 ```bash
-# Open a shell in the dev container
-docker-compose run --rm edwin_dev bash
-
+make dev
 # Then, inside the container:
 ```
 
@@ -90,25 +88,33 @@ docker-compose run --rm edwin_dev bash
 
 If a new package folder is added in the future, its corresponding test and lint commands must be run before merging any changes to that folder.
 
-### Running via Docker
+### Running tests and lint
 
-All development commands must be executed inside Docker containers — do not rely on a local Node.js installation.
+All development commands must be executed inside the Docker container — do not rely on a local Node.js installation.
+
+Open the dev shell with:
 
 ```bash
-# Build the dev image (only needed once, or after Dockerfile changes)
-docker-compose up base_build
+make dev
+```
 
-# Open an interactive shell in the source dev container
-docker-compose run --rm edwin_dev bash
+Then, inside the container:
 
-# Run tests with coverage
-docker-compose run --rm edwin_dev yarn coverage
+```bash
+# Run tests with coverage report
+yarn coverage
 
-# Run linter
-docker-compose run --rm edwin_dev yarn lint
+# Run the linter
+yarn lint
 
 # Fix lint issues automatically
-docker-compose run --rm edwin_dev yarn lint_fix
+yarn lint_fix
+```
+
+To run a single test file:
+
+```bash
+yarn test source/spec/path/to/YourFile.test.js
 ```
 
 ## Code Organization
