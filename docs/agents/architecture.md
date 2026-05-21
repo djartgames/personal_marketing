@@ -2,25 +2,39 @@
 
 ## Overview
 
-Edwin is a React-based game engine. The source code is split into three layers: **entities** (pure domain logic), **hooks** (React state bridges), and **components** (UI rendering).
+Personal Marketing is a React application that uses **Edwin** as its game engine. The app wires together game data (locations, NPCs, items) using Edwin's entity classes, then hands the resulting `GameStateManager` to Edwin's `GameContainer` for rendering.
 
-## Component Structure
-
-Each UI component in `source/lib/components/` follows a three-layer split:
+## Layer Structure
 
 | Layer | Location | Responsibility |
 |-------|----------|----------------|
-| **Component** (`.jsx`) | `components/` | Thin rendering layer — wires props to helpers and controllers, delegates all logic |
-| **Helper** (`.jsx`) | `components/helpers/` | Generates JSX fragments for conditional or repeated markup; one class per component |
-| **Controller** (`.js`) | `components/controllers/` | Plain JS class handling non-React business logic; testable without a renderer |
+| **Game definition** | `personal_marketing/lib/` | Pure data — constructs Edwin entities (Game, Location, NPC, Item, Interaction) |
+| **App entry** | `personal_marketing/main.jsx` | Mounts the React app, starts the game, renders `<GameContainer>` |
+| **Engine** | `source/` (Edwin) | All rendering, state management, and UI logic — treated as a black box |
 
-### Rules
+## Edwin as a Sibling Dependency
 
-- Any JSX guarded by a condition (`condition && <JSX />`) must be extracted into a helper method.
-- Methods should be as small as possible — each method does exactly one thing.
-- Helper and controller classes are instantiated with the props or callbacks they need; they hold no React state.
-- Specs for helpers live in `source/spec/components/helpers/`, specs for controllers in `source/spec/components/controllers/`.
+In Docker, Edwin's source is mounted into the game container:
 
-## Source Code Layout
+```
+/home/node/app/          ← personal_marketing app root
+/home/node/app/edwin/    ← Edwin source (mounted from ./source)
+```
 
-_See [folder-structure.md](folder-structure.md) for a full directory breakdown._
+`vite.config.js` defines a `resolve.alias` so `import { ... } from 'edwin'` resolves to the mounted source:
+
+```js
+resolve: {
+  alias: {
+    edwin: resolve(__dirname, 'edwin/lib/index.js'),
+  },
+},
+```
+
+## Game Definition
+
+All game content lives in `personal_marketing/lib/`. Each file is a **module declarer** — it exports Edwin entity instances with no side effects at import time.
+
+The only exception is `lib/game.js`, which wires everything together and exports `game` and `manager` for use in `main.jsx`.
+
+_See [folder-structure.md](folder-structure.md) for the full directory breakdown and [how-to-use-edwin.md](how-to-use-edwin.md) for Edwin's entity API._
