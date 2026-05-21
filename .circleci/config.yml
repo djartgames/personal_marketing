@@ -15,12 +15,16 @@ workflows:
           filters:
             tags:
               only: /.*/
+      - personal_marketing_example_jasmine:
+          filters:
+            tags:
+              only: /.*/
       - checks:
           filters:
             tags:
               only: /.*/
       - coverage-final:
-          requires: [jasmine, basic_example_jasmine, advanced_example_jasmine]
+          requires: [jasmine, basic_example_jasmine, advanced_example_jasmine, personal_marketing_example_jasmine]
           filters:
             tags:
               only: /.*/
@@ -70,6 +74,21 @@ jobs:
       - run:
           name: Unit tests (Vitest + coverage)
           command: cd examples/advanced-rpg; npm run coverage
+
+  personal_marketing_example_jasmine:
+    docker:
+      - image: darthjee/circleci_node:0.2.1
+    steps:
+      - checkout
+      - run:
+          name: Copy Edwin source into example
+          command: cp -r source examples/personal-marketing/edwin
+      - run:
+          name: Install dependencies
+          command: cd examples/personal-marketing; yarn install
+      - run:
+          name: Unit tests (Vitest + coverage)
+          command: cd examples/personal-marketing; npm run coverage
 
   checks:
     docker:
