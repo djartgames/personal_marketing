@@ -1,5 +1,7 @@
 # Personal Marketing
 
+[![Build Status](https://circleci.com/gh/djartgames/personal_marketing.svg?style=shield)](https://circleci.com/gh/djartgames/personal_marketing)
+
 A text-based RPG where **Anastacia** must complete marketing jobs to save her struggling company. Built with the [Edwin](source/) engine.
 
 ---
