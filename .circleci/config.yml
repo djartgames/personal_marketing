@@ -82,13 +82,13 @@ jobs:
       - checkout
       - run:
           name: Copy Edwin source into example
-          command: cp -r source examples/personal-marketing/edwin
+          command: cp -r source personal_marketing/edwin
       - run:
           name: Install dependencies
-          command: cd examples/personal-marketing; yarn install
+          command: cd personal_marketing; yarn install
       - run:
           name: Unit tests (Vitest + coverage)
-          command: cd examples/personal-marketing; npm run coverage
+          command: cd personal_marketing; npm run coverage
 
   checks:
     docker:

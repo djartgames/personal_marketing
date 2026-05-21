@@ -65,7 +65,7 @@ services:
     ports:
       - "3050:3050"
     volumes:
-      - ./examples/personal-marketing:/home/node/app
+      - ./personal_marketing:/home/node/app
       - ./source:/home/node/app/edwin
       - ./docker_volumes/node_modules:/home/node/app/node_modules
     stdin_open: true
