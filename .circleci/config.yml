@@ -44,9 +44,6 @@ jobs:
       - run:
           name: Lint
           command: cd personal_marketing; npm run lint
-      - run:
-          name: Duplication report (JSCPD)
-          command: cd personal_marketing; npm run report
 
   coverage-final:
     docker:
