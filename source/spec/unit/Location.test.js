@@ -72,4 +72,24 @@ describe('Location', () => {
     expect(json.id).toBe('forest');
     expect(json.description).toBe('Tall trees.');
   });
+
+  it('image defaults to null', () => {
+    const loc = makeLocation();
+    expect(loc.image).toBeNull();
+  });
+
+  it('stores an image URL when provided', () => {
+    const loc = makeLocation({ image: 'https://example.com/forest.jpg' });
+    expect(loc.image).toBe('https://example.com/forest.jpg');
+  });
+
+  it('toJSON() includes the image field', () => {
+    const loc = makeLocation({ image: 'https://example.com/forest.jpg' });
+    expect(loc.toJSON().image).toBe('https://example.com/forest.jpg');
+  });
+
+  it('toJSON() includes image as null when not set', () => {
+    const loc = makeLocation();
+    expect(loc.toJSON().image).toBeNull();
+  });
 });

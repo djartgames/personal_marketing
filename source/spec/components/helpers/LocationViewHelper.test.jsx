@@ -99,6 +99,28 @@ describe('LocationViewHelper', () => {
     });
   });
 
+  describe('renderImage', () => {
+    it('renders an img with src and alt when image is present', () => {
+      const helper = new LocationViewHelper({});
+      const location = { name: 'Forest', image: 'https://example.com/forest.jpg' };
+      render(<div>{helper.renderImage(location)}</div>);
+      const img = screen.getByRole('img');
+      expect(img).toBeInTheDocument();
+      expect(img.getAttribute('src')).toBe('https://example.com/forest.jpg');
+      expect(img.getAttribute('alt')).toBe('Forest');
+    });
+
+    it('returns null when image is absent', () => {
+      const helper = new LocationViewHelper({});
+      expect(helper.renderImage({ name: 'Forest', image: null })).toBeNull();
+    });
+
+    it('returns null when image is an empty string', () => {
+      const helper = new LocationViewHelper({});
+      expect(helper.renderImage({ name: 'Forest', image: '' })).toBeNull();
+    });
+  });
+
   describe('renderNPCs', () => {
     it('renders the NPCs section when NPCs are present', () => {
       const helper = new LocationViewHelper({});

@@ -21,6 +21,7 @@ export class Location {
    * @param {string} config.name - Display name.
    * @param {string} [config.description=''] - Long description shown to the player.
    * @param {string} [config.shortDescription=''] - Brief description for navigation.
+   * @param {string|null} [config.image=null] - URL of an image depicting the location.
    * @param {object} [config.paths={}] - Map of direction → `{ target, label }`.
    * @param {Array<import('./Item.js').Item>} [config.items=[]] - Items present.
    * @param {Array<import('./NPC.js').NPC>} [config.npcs=[]] - NPCs present.
@@ -31,6 +32,7 @@ export class Location {
     name,
     description = '',
     shortDescription = '',
+    image = null,
     paths = {},
     items = [],
     npcs = [],
@@ -43,6 +45,7 @@ export class Location {
     this.name = name;
     this.description = description;
     this.shortDescription = shortDescription;
+    this.image = image;
     this.paths = { ...paths };
     this.items = [...items];
     this.npcs = [...npcs];
@@ -145,6 +148,7 @@ export class Location {
       name: this.name,
       description: this.description,
       shortDescription: this.shortDescription,
+      image: this.image,
       paths: { ...this.paths },
       isLocked: this.isLocked,
       properties: { ...this.properties },

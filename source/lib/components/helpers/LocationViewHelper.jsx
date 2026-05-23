@@ -4,6 +4,17 @@ class LocationViewHelper {
     this.onTalkTo = onTalkTo;
   }
 
+  renderImage(location) {
+    if (!location.image) {return null;}
+    return (
+      <img
+        src={location.image}
+        alt={location.name}
+        className="img-fluid w-100 mb-3"
+      />
+    );
+  }
+
   renderItemDescription(item) {
     if (!item.description) {return null;}
     return <span className="ms-2 text-muted small">{item.description}</span>;

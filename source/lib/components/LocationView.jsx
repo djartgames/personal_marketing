@@ -15,6 +15,7 @@ function LocationView({ location, onPickUp, onTalkTo }) {
 
   return (
     <div className="edwin-location-view">
+      {helper.renderImage(location)}
       <h2 className="location__name">{location.name}</h2>
       <p className="location__description">{location.description}</p>
       {helper.renderItems(location)}
@@ -28,6 +29,7 @@ LocationView.propTypes = {
     id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     description: PropTypes.string,
+    image: PropTypes.string,
     items: PropTypes.array,
     npcs: PropTypes.array,
   }),

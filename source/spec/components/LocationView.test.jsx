@@ -83,4 +83,28 @@ describe('LocationView', () => {
     fireEvent.click(screen.getByText('Talk'));
     expect(onTalkTo).toHaveBeenCalledWith(npc);
   });
+
+  it('renders image above name when image is provided', () => {
+    const location = {
+      id: 'forest',
+      name: 'Forest',
+      description: 'Dark trees.',
+      image: 'https://example.com/forest.jpg',
+      items: [],
+      npcs: [],
+    };
+    const { container } = render(<LocationView location={location} />);
+    const img = container.querySelector('img');
+    expect(img).not.toBeNull();
+    expect(img.getAttribute('src')).toBe('https://example.com/forest.jpg');
+    expect(img.getAttribute('alt')).toBe('Forest');
+    const wrapper = container.querySelector('.edwin-location-view');
+    expect(wrapper.firstChild).toBe(img);
+  });
+
+  it('does not render an image when image is absent', () => {
+    const location = { id: 'void', name: 'Void', description: '', items: [], npcs: [] };
+    const { container } = render(<LocationView location={location} />);
+    expect(container.querySelector('img')).toBeNull();
+  });
 });

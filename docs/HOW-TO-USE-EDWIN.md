@@ -133,6 +133,24 @@ const townSquare = new Location({
 });
 ```
 
+#### Location images
+
+You can optionally provide an `image` URL that is displayed above the location name and description. The recommended approach is to import image assets directly — Vite will include them in the production build with content-hashed filenames:
+
+```js
+import tavernImg from './assets/images/locations/tavern.png';
+
+const tavern = new Location({
+  id: 'tavern',
+  name: 'The Rusty Flagon',
+  description: 'A dimly lit tavern smelling of ale and sawdust.',
+  image: tavernImg,
+  paths: { north: { target: 'town_square', label: '↑ North' } },
+});
+```
+
+When `image` is omitted, no image element is rendered.
+
 ### 5. Create the game
 
 ```js
