@@ -55,3 +55,19 @@ services:
     stdin_open: true
     tty: true
     command: npx vite --host 0.0.0.0 --port 3010
+
+  personal_marketing_example:
+    image: edwin:dev
+    container_name: personal_marketing_example
+    depends_on: [base_build]
+    environment:
+      - NODE_ENV=development
+    ports:
+      - "3050:3050"
+    volumes:
+      - ./personal_marketing:/home/node/app
+      - ./source:/home/node/app/edwin
+      - ./docker_volumes/node_modules:/home/node/app/node_modules
+    stdin_open: true
+    tty: true
+    command: npx vite --host 0.0.0.0 --port 3050
