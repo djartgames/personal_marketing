@@ -35,16 +35,47 @@ export class Interaction {
       throw new Error('Interaction requires at least one step.');
     }
 
-    this.id = id;
-    this.steps = steps;
+    this._id = id;
+    this._steps = steps;
     this._stepMap = new Map(steps.map((s) => [s.id, s]));
     this._currentStepId = startStepId ?? steps[0].id;
-    this.isComplete = false;
+    this._isComplete = false;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(id) {
+    if (!id) { throw new Error('Interaction requires an id.'); }
+    this._id = id;
+  }
+
+  get steps() {
+    return [...this._steps];
+  }
+
+  set steps(steps) {
+    if (!Array.isArray(steps) || steps.length === 0) {
+      throw new Error('Interaction requires at least one step.');
+    }
+    this._steps = [...steps];
+    this._stepMap = new Map(this._steps.map((step) => [step.id, step]));
+    this._currentStepId = this._steps[0].id;
+    this._isComplete = false;
+  }
+
+  get isComplete() {
+    return this._isComplete;
+  }
+
+  set isComplete(isComplete) {
+    this._isComplete = isComplete;
   }
 
   /** @returns {object | null} The current step object, or null if finished. */
   get currentStep() {
-    if (this.isComplete) { return null; }
+    if (this._isComplete) { return null; }
     return this._stepMap.get(this._currentStepId) ?? null;
   }
 
@@ -67,7 +98,7 @@ export class Interaction {
     }
 
     if (option.next === null || option.next === undefined) {
-      this.isComplete = true;
+      this._isComplete = true;
       return null;
     }
 
@@ -77,8 +108,8 @@ export class Interaction {
 
   /** Reset the interaction to its initial state. */
   reset() {
-    this._currentStepId = this.steps[0].id;
-    this.isComplete = false;
+    this._currentStepId = this._steps[0].id;
+    this._isComplete = false;
   }
 
   /**
@@ -88,9 +119,9 @@ export class Interaction {
    */
   toJSON() {
     return {
-      id: this.id,
+      id: this._id,
       currentStepId: this._currentStepId,
-      isComplete: this.isComplete,
+      isComplete: this._isComplete,
     };
   }
 }

@@ -5,6 +5,7 @@ describe('Edwin public API (lib/index.js)', () => {
   it('exports entity classes', () => {
     expect(Edwin.Game).toBeDefined();
     expect(Edwin.Location).toBeDefined();
+    expect(Edwin.Path).toBeDefined();
     expect(Edwin.NPC).toBeDefined();
     expect(Edwin.Item).toBeDefined();
     expect(Edwin.Action).toBeDefined();

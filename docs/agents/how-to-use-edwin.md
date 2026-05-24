@@ -32,13 +32,14 @@ Your project needs [React](https://react.dev/) and [Vite](https://vitejs.dev/). 
 
 ## Core concepts
 
-Edwin is built around five entities:
+Edwin is built around its core game entities:
 
 | Entity | Purpose |
 |--------|---------|
 | `Game` | Top-level container that holds locations and manages save/load |
 | `GameStateManager` | Bridges the game state to React |
 | `Location` | A place the player can visit, with a description, paths, NPCs and items |
+| `Path` | A route between locations that can carry labels and optional conditions |
 | `NPC` | A character the player can talk to, driven by an `Interaction` |
 | `Item` | An object the player can inspect, pick up, or use |
 | `Interaction` | A branching dialogue tree attached to an NPC |
@@ -109,12 +110,21 @@ const innkeeper = new NPC({
 
 ### 4. Define locations
 
-Locations reference each other by `id` via the `paths` map:
+Locations reference each other by `id` via the `paths` map. Each path can be either:
+
+- a plain object (auto-wrapped as a `Path` instance), or
+- a custom class that extends `Path`.
 
 ```js
-import { Location } from 'edwin';
+import { Location, Path } from 'edwin';
 import { innkeeper } from './npcs.js';
 import { healthPotion } from './items.js';
+
+class LockedGatePath extends Path {
+  constructor(config) {
+    super({ ...config, conditions: ['has_gate_key'] });
+  }
+}
 
 const tavern = new Location({
   id: 'tavern',
@@ -128,7 +138,7 @@ const townSquare = new Location({
   id: 'town_square',
   name: 'Town Square',
   description: 'The heart of the village. A weathered stone fountain stands in the centre.',
-  paths: { south: { target: 'tavern', label: '↓ South' } },
+  paths: { south: new LockedGatePath({ target: 'tavern', label: '↓ South' }) },
   items: [healthPotion],
 });
 ```

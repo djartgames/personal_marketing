@@ -4,13 +4,14 @@
  * Import from this file to consume the Edwin RPG framework.
  *
  * @example
- * import { Game, Location, NPC, Item, Action, Interaction, EventSystem } from 'edwin';
+ * import { Game, Location, Path, NPC, Item, Action, Interaction, EventSystem } from 'edwin';
  * import { GameContainer, GameStateManager } from 'edwin';
  */
 
 // ── Entities ──────────────────────────────────────────────────────────────────
 export { Game } from './entities/Game.js';
 export { Location } from './entities/Location.js';
+export { Path } from './entities/Path.js';
 export { NPC } from './entities/NPC.js';
 export { Item } from './entities/Item.js';
 export { Action } from './entities/Action.js';

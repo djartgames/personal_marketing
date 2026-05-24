@@ -109,4 +109,43 @@ describe('Interaction', () => {
     });
     expect(interaction.currentStep).toBeNull();
   });
+
+  it('steps getter returns a copy', () => {
+    const interaction = makeInteraction();
+    const steps = interaction.steps;
+
+    steps.pop();
+
+    expect(interaction.steps).toHaveLength(2);
+  });
+
+  it('setters update public fields', () => {
+    const interaction = makeInteraction();
+    const steps = [
+      { id: 'single', text: 'Only step', options: [{ label: 'Exit', next: null }] },
+    ];
+
+    interaction.id = 'renamed';
+    interaction.isComplete = true;
+    interaction.steps = steps;
+
+    expect(interaction.id).toBe('renamed');
+    expect(interaction.steps).toEqual(steps);
+    expect(interaction.currentStep.id).toBe('single');
+    expect(interaction.isComplete).toBe(false);
+  });
+
+  it('steps setter throws for empty list', () => {
+    const interaction = makeInteraction();
+    expect(() => {
+      interaction.steps = [];
+    }).toThrow('Interaction requires at least one step.');
+  });
+
+  it('isComplete setter updates completion flag', () => {
+    const interaction = makeInteraction();
+    interaction.isComplete = true;
+    expect(interaction.isComplete).toBe(true);
+    expect(interaction.currentStep).toBeNull();
+  });
 });
