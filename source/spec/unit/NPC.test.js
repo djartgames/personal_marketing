@@ -66,6 +66,40 @@ describe('NPC', () => {
     expect(npc.inventory[0]).toBe(item);
   });
 
+  it('inventory getter returns a copy', () => {
+    const npc = makeNPC();
+    const item = new Item({ id: 'coin', name: 'Coin' });
+    npc.addItem(item);
+    const inventory = npc.inventory;
+
+    inventory.pop();
+
+    expect(npc.inventory).toHaveLength(1);
+  });
+
+  it('setters update public fields', () => {
+    const npc = makeNPC();
+    const dialogue = makeInteraction();
+    const item = new Item({ id: 'coin', name: 'Coin' });
+
+    npc.id = 'captain';
+    npc.name = 'Captain';
+    npc.description = 'City guard captain';
+    npc.dialogue = dialogue;
+    npc.inventory = [item];
+    npc.properties = { rank: 'captain' };
+    npc.isHostile = true;
+
+    expect(npc.id).toBe('captain');
+    expect(npc.name).toBe('Captain');
+    expect(npc.description).toBe('City guard captain');
+    expect(npc.dialogue).toBe(dialogue);
+    expect(npc.inventory).toHaveLength(1);
+    expect(npc.inventory[0]).toBe(item);
+    expect(npc.properties).toEqual({ rank: 'captain' });
+    expect(npc.isHostile).toBe(true);
+  });
+
   it('removeItem() returns the item when found', () => {
     const npc = makeNPC();
     const item = new Item({ id: 'coin', name: 'Coin' });

@@ -27,15 +27,73 @@ export class Item {
     if (!id) { throw new Error('Item requires an id.'); }
     if (!name) { throw new Error('Item requires a name.'); }
 
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.isPickable = isPickable;
-    this.isUsable = isUsable;
-    this.properties = { ...properties };
+    this._id = id;
+    this._name = name;
+    this._description = description;
+    this._isPickable = isPickable;
+    this._isUsable = isUsable;
+    this._properties = { ...properties };
 
     /** @type {'world' | 'inventory' | 'equipped' | 'discarded'} */
-    this.state = 'world';
+    this._state = 'world';
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(id) {
+    if (!id) { throw new Error('Item requires an id.'); }
+    this._id = id;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(name) {
+    if (!name) { throw new Error('Item requires a name.'); }
+    this._name = name;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  set description(description) {
+    this._description = description ?? '';
+  }
+
+  get isPickable() {
+    return this._isPickable;
+  }
+
+  set isPickable(isPickable) {
+    this._isPickable = isPickable;
+  }
+
+  get isUsable() {
+    return this._isUsable;
+  }
+
+  set isUsable(isUsable) {
+    this._isUsable = isUsable;
+  }
+
+  get properties() {
+    return { ...this._properties };
+  }
+
+  set properties(properties) {
+    this._properties = { ...(properties ?? {}) };
+  }
+
+  get state() {
+    return this._state;
+  }
+
+  set state(state) {
+    this.setState(state);
   }
 
   /**
@@ -48,7 +106,7 @@ export class Item {
     if (!valid.includes(newState)) {
       throw new Error(`Invalid item state: ${newState}`);
     }
-    this.state = newState;
+    this._state = newState;
   }
 
   /**
@@ -72,13 +130,13 @@ export class Item {
    */
   toJSON() {
     return {
-      id: this.id,
-      name: this.name,
-      description: this.description,
-      isPickable: this.isPickable,
-      isUsable: this.isUsable,
-      properties: { ...this.properties },
-      state: this.state,
+      id: this._id,
+      name: this._name,
+      description: this._description,
+      isPickable: this._isPickable,
+      isUsable: this._isUsable,
+      properties: { ...this._properties },
+      state: this._state,
     };
   }
 }

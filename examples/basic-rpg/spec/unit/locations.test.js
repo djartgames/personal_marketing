@@ -11,7 +11,8 @@ describe('tavern', () => {
   });
 
   it('has a path north to town_square', () => {
-    expect(tavern.paths.north).toEqual({ target: 'town_square', label: '↑ North' });
+    expect(tavern.paths.north.target).toBe('town_square');
+    expect(tavern.paths.north.label).toBe('↑ North');
   });
 
   it('has the innkeeper as an NPC', () => {
@@ -30,7 +31,8 @@ describe('townSquare', () => {
   });
 
   it('has a path south to tavern', () => {
-    expect(townSquare.paths.south).toEqual({ target: 'tavern', label: '↓ South' });
+    expect(townSquare.paths.south.target).toBe('tavern');
+    expect(townSquare.paths.south.label).toBe('↓ South');
   });
 
   it('has the health potion as an item', () => {

@@ -35,13 +35,71 @@ export class NPC {
     if (!id) { throw new Error('NPC requires an id.'); }
     if (!name) { throw new Error('NPC requires a name.'); }
 
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.dialogue = dialogue;
-    this.inventory = [...inventory];
-    this.properties = { ...properties };
-    this.isHostile = false;
+    this._id = id;
+    this._name = name;
+    this._description = description;
+    this._dialogue = dialogue;
+    this._inventory = [...inventory];
+    this._properties = { ...properties };
+    this._isHostile = false;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(id) {
+    if (!id) { throw new Error('NPC requires an id.'); }
+    this._id = id;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  set name(name) {
+    if (!name) { throw new Error('NPC requires a name.'); }
+    this._name = name;
+  }
+
+  get description() {
+    return this._description;
+  }
+
+  set description(description) {
+    this._description = description ?? '';
+  }
+
+  get dialogue() {
+    return this._dialogue;
+  }
+
+  set dialogue(dialogue) {
+    this._dialogue = dialogue;
+  }
+
+  get inventory() {
+    return [...this._inventory];
+  }
+
+  set inventory(inventory) {
+    this._inventory = Array.isArray(inventory) ? [...inventory] : [];
+  }
+
+  get properties() {
+    return { ...this._properties };
+  }
+
+  set properties(properties) {
+    this._properties = { ...(properties ?? {}) };
+  }
+
+  get isHostile() {
+    return this._isHostile;
+  }
+
+  set isHostile(isHostile) {
+    this._isHostile = isHostile;
   }
 
   /**
@@ -50,9 +108,9 @@ export class NPC {
    * @returns {object | null} The first dialogue step, or null if no dialogue.
    */
   startDialogue() {
-    if (!this.dialogue) { return null; }
-    this.dialogue.reset();
-    return this.dialogue.currentStep;
+    if (!this._dialogue) { return null; }
+    this._dialogue.reset();
+    return this._dialogue.currentStep;
   }
 
   /**
@@ -63,8 +121,8 @@ export class NPC {
    * @returns {object | null} The next step, or null when done.
    */
   respondToChoice(optionIndex, gameState = {}) {
-    if (!this.dialogue) { return null; }
-    return this.dialogue.choose(optionIndex, gameState);
+    if (!this._dialogue) { return null; }
+    return this._dialogue.choose(optionIndex, gameState);
   }
 
   /**
@@ -73,7 +131,7 @@ export class NPC {
    * @param {import('./Item.js').Item} item
    */
   addItem(item) {
-    this.inventory.push(item);
+    this._inventory.push(item);
   }
 
   /**
@@ -83,9 +141,9 @@ export class NPC {
    * @returns {import('./Item.js').Item | null} The removed item, or null.
    */
   removeItem(itemId) {
-    const idx = this.inventory.findIndex((i) => i.id === itemId);
+    const idx = this._inventory.findIndex((i) => i.id === itemId);
     if (idx === -1) { return null; }
-    return this.inventory.splice(idx, 1)[0];
+    return this._inventory.splice(idx, 1)[0];
   }
 
   /**
@@ -95,13 +153,13 @@ export class NPC {
    */
   toJSON() {
     return {
-      id: this.id,
-      name: this.name,
-      description: this.description,
-      isHostile: this.isHostile,
-      properties: { ...this.properties },
-      inventory: this.inventory.map((i) => i.toJSON()),
-      dialogue: this.dialogue?.toJSON() ?? null,
+      id: this._id,
+      name: this._name,
+      description: this._description,
+      isHostile: this._isHostile,
+      properties: { ...this._properties },
+      inventory: this._inventory.map((i) => i.toJSON()),
+      dialogue: this._dialogue?.toJSON() ?? null,
     };
   }
 }

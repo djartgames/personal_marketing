@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest';
 import { Item } from '../../lib/entities/Item.js';
 import { Location } from '../../lib/entities/Location.js';
 import { NPC } from '../../lib/entities/NPC.js';
+import { Path } from '../../lib/entities/Path.js';
 
 describe('Location', () => {
   const makeLocation = (overrides = {}) =>
@@ -18,14 +19,28 @@ describe('Location', () => {
   it('addPath() / getExits()', () => {
     const loc = makeLocation();
     loc.addPath('north', { target: 'town', label: '↑ North' });
+
     expect(loc.getExits()).toContain('north');
-    expect(loc.paths.north).toEqual({ target: 'town', label: '↑ North' });
+    expect(loc.paths.north).toBeInstanceOf(Path);
+    expect(loc.paths.north.target).toBe('town');
+    expect(loc.paths.north.label).toBe('↑ North');
   });
 
   it('removePath() removes an exit', () => {
     const loc = makeLocation({ paths: { north: { target: 'town', label: '↑ North' } } });
+
+    expect(loc.paths.north).toBeInstanceOf(Path);
     loc.removePath('north');
     expect(loc.getExits()).not.toContain('north');
+  });
+
+  it('keeps a custom Path instance as-is', () => {
+    class SecretPath extends Path {}
+
+    const secretPath = new SecretPath({ target: 'vault', label: 'Secret tunnel' });
+    const loc = makeLocation({ paths: { east: secretPath } });
+
+    expect(loc.paths.east).toBe(secretPath);
   });
 
   it('addItem() / removeItem()', () => {
@@ -67,10 +82,16 @@ describe('Location', () => {
   });
 
   it('toJSON() returns a serializable object', () => {
-    const loc = makeLocation({ description: 'Tall trees.' });
+    const loc = makeLocation({
+      description: 'Tall trees.',
+      paths: { north: { target: 'town', label: '↑ North' } },
+    });
+
     const json = loc.toJSON();
+
     expect(json.id).toBe('forest');
     expect(json.description).toBe('Tall trees.');
+    expect(json.paths.north).toEqual({ target: 'town', label: '↑ North' });
   });
 
   it('image defaults to null', () => {

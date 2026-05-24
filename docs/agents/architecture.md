@@ -4,6 +4,15 @@
 
 Edwin is a React-based game engine. The source code is split into three layers: **entities** (pure domain logic), **hooks** (React state bridges), and **components** (UI rendering).
 
+## Entities
+
+- `Location` stores its state in private attributes and exposes public getters (`id`, `name`, `description`, `shortDescription`, `image`, `paths`, `items`, `npcs`, `properties`, `isLocked`).
+- `Path` represents a route between locations and can be subclassed for custom behavior.
+- `Location` path definitions are normalized at construction time:
+  - Plain objects are wrapped in `Path`.
+  - Existing `Path` instances (or subclasses) are preserved.
+- For implementation rules on extensible public entities (protected `_` fields + getter/setter APIs), see [entities.md](entities.md).
+
 ## Component Structure
 
 Each UI component in `source/lib/components/` follows a three-layer split:

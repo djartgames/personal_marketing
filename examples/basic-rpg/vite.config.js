@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      // In the Docker container, Edwin source is mounted at ./edwin
       edwin: resolve(__dirname, 'edwin/lib/index.js'),
     },
   },
   test: {
+    include: ['spec/**/*.test.js'],
     globals: true,
     environment: 'jsdom',
     setupFiles: './spec/setup.js',

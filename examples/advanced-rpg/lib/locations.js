@@ -49,8 +49,6 @@ const citadelGate = new Location({
   npcs: [guard],
 });
 
-citadelGate.isLocked = false;
-
 const vault = new Location({
   id: 'vault',
   name: 'The Moon Vault',

@@ -25,6 +25,7 @@ All project documentation lives under [`docs/agents/`](docs/agents/):
 |------|----------|
 | [Folder Structure](docs/agents/folder-structure.md) | Top-level directory layout and the role of each folder. |
 | [Architecture](docs/agents/architecture.md) | Source layout, modules, code style, and implementation guidelines. |
+| [Entities](docs/agents/entities.md) | Rules for implementing public entities with protected attributes and getter/setter APIs. |
 | [Flow](docs/agents/flow.md) | Main runtime flow of the application. |
 | [Contributing](docs/agents/contributing.md) | Commit guidelines, PR standards, code organization, and refactoring rules. |
 | [Examples](docs/agents/examples.md) | How the example apps are structured, how Edwin is injected, and how to run them. |
