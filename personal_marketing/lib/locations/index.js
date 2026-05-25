@@ -1,10 +1,3 @@
-export { Bathroom } from './bathroom.js';
-export { Bedroom } from './bedroom.js';
-export { CoffeeShop } from './coffee_shop.js';
-export { Grocery } from './grocery.js';
-export { LivingRoom } from './living_room.js';
-export { TownSquare } from './town_square.js';
-
 import { Bathroom } from './bathroom.js';
 import { Bedroom } from './bedroom.js';
 import { CoffeeShop } from './coffee_shop.js';
