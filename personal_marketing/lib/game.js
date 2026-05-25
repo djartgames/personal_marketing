@@ -1,5 +1,5 @@
 import { Game, GameStateManager } from 'edwin';
-import { home } from './locations.js';
+import { livingRoom } from './locations.js';
 
 const game = new Game({
   id: 'personal_marketing',
@@ -7,8 +7,8 @@ const game = new Game({
   description: 'Follow Anastacia on her journey.',
 });
 
-game.addLocation(home);
-game.setStartLocation('home');
+game.addLocation(livingRoom);
+game.setStartLocation('living_room');
 
 const manager = new GameStateManager(game);
 

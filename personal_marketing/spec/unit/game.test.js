@@ -14,8 +14,8 @@ describe('game', () => {
     expect(game.locations.size).toBe(1);
   });
 
-  it('starts at home', () => {
-    expect(game.toJSON().startLocationId).toBe('home');
+  it('starts at living room', () => {
+    expect(game.toJSON().startLocationId).toBe('living_room');
   });
 });
 

@@ -1,24 +1,24 @@
 import { describe, it, expect } from 'vitest';
-import { home } from '../../lib/locations.js';
+import { livingRoom } from '../../lib/locations.js';
 
-describe('home', () => {
+describe('livingRoom', () => {
   it('has correct id', () => {
-    expect(home.id).toBe('home');
+    expect(livingRoom.id).toBe('living_room');
   });
 
   it('has correct name', () => {
-    expect(home.name).toBe('Home');
+    expect(livingRoom.name).toBe('Living Room');
   });
 
   it('has no paths', () => {
-    expect(Object.keys(home.paths)).toHaveLength(0);
+    expect(Object.keys(livingRoom.paths)).toHaveLength(0);
   });
 
   it('has no npcs', () => {
-    expect(home.npcs).toHaveLength(0);
+    expect(livingRoom.npcs).toHaveLength(0);
   });
 
   it('has no items', () => {
-    expect(home.items).toHaveLength(0);
+    expect(livingRoom.items).toHaveLength(0);
   });
 });
