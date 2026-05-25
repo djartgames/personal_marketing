@@ -28,12 +28,12 @@ The main project — the Personal Marketing RPG game.
 
 ### `personal_marketing/lib/`
 
-| File | Description |
-|------|-------------|
+| File / Folder | Description |
+|---------------|-------------|
 | `game.js` | Creates the `Game` and `GameStateManager` instances; adds all locations. |
-| `locations.js` | Location definitions (places Anastacia can visit). |
+| `locations/` | One file per location (e.g. `living_room.js`, `bedroom.js`). `index.js` re-exports all. |
 
-Additional files will be added here as the game grows (e.g. `npcs.js`, `items.js`, `interactions.js`).
+Additional sub-folders will be added here as the game grows (e.g. `npcs/`, `items/`, `interactions/`).
 
 ## `source/`
 
