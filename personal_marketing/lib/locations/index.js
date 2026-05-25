@@ -1,10 +1,22 @@
-export { bathroom } from './bathroom.js';
-export { bedroom } from './bedroom.js';
-export { coffeeShop } from './coffee_shop.js';
-export { grocery } from './grocery.js';
+export { Bathroom } from './bathroom.js';
+export { Bedroom } from './bedroom.js';
+export { CoffeeShop } from './coffee_shop.js';
+export { Grocery } from './grocery.js';
 export { LivingRoom } from './living_room.js';
-export { townSquare } from './town_square.js';
+export { TownSquare } from './town_square.js';
 
+import { Bathroom } from './bathroom.js';
+import { Bedroom } from './bedroom.js';
+import { CoffeeShop } from './coffee_shop.js';
+import { Grocery } from './grocery.js';
 import { LivingRoom } from './living_room.js';
+import { TownSquare } from './town_square.js';
+
+const bathroom = new Bathroom();
+const bedroom = new Bedroom();
+const coffeeShop = new CoffeeShop();
+const grocery = new Grocery();
 const livingRoom = new LivingRoom();
-export { livingRoom };
+const townSquare = new TownSquare();
+
+export { bathroom, bedroom, coffeeShop, grocery, livingRoom, townSquare };
