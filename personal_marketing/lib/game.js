@@ -1,5 +1,5 @@
 import { Game, GameStateManager } from 'edwin';
-import { livingRoom } from './locations.js';
+import { livingRoom, bedroom, bathroom, townSquare, coffeeShop, grocery } from './locations.js';
 
 const game = new Game({
   id: 'personal_marketing',
@@ -8,6 +8,11 @@ const game = new Game({
 });
 
 game.addLocation(livingRoom);
+game.addLocation(bedroom);
+game.addLocation(bathroom);
+game.addLocation(townSquare);
+game.addLocation(coffeeShop);
+game.addLocation(grocery);
 game.setStartLocation('living_room');
 
 const manager = new GameStateManager(game);
