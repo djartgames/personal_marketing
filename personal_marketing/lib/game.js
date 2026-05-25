@@ -1,5 +1,5 @@
 import { Game, GameStateManager } from 'edwin';
-import { livingRoom, bedroom, bathroom, townSquare, coffeeShop, grocery } from './locations.js';
+import { livingRoom, bedroom, bathroom, townSquare, coffeeShop, grocery } from './locations/index.js';
 
 const game = new Game({
   id: 'personal_marketing',

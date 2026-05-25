@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { livingRoom, bedroom, bathroom, townSquare, coffeeShop, grocery } from '../../lib/locations.js';
+import { livingRoom, bedroom, bathroom, townSquare, coffeeShop, grocery } from '../../lib/locations/index.js';
 
 describe('livingRoom', () => {
   it('has correct id', () => {
