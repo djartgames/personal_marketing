@@ -78,37 +78,30 @@ Before a PR is considered complete, all CI checks relevant to the modified parts
 
 | Modified folder | Commands to run |
 |-----------------|-----------------|
-| `personal_marketing/lib/` | `npm run coverage && npm run lint` |
-| `personal_marketing/spec/` | `npm run coverage` |
+| `personal_marketing/lib/` | coverage + lint (see below) |
+| `personal_marketing/spec/` | coverage (see below) |
 
 If a new package folder is added in the future, its corresponding test and lint commands must be run before merging any changes to that folder.
 
 ### Running tests and lint
 
-Run all commands from inside the `personal_marketing/` directory.
+All commands are run via **docker-compose** from the project root (where `docker-compose.yml` lives). Do not run them locally or with bare `docker run`.
 
 ```bash
 # Run tests with coverage report
-cd personal_marketing && npm run coverage
+docker-compose run --rm --no-deps personal_marketing_example npm run coverage
 
 # Run the linter
-cd personal_marketing && npm run lint
+docker-compose run --rm --no-deps personal_marketing_example npm run lint
 
 # Fix lint issues automatically
-cd personal_marketing && npm run lint_fix
+docker-compose run --rm --no-deps personal_marketing_example npm run lint_fix
+
+# Run a single test file
+docker-compose run --rm --no-deps personal_marketing_example npx vitest run spec/path/to/YourFile.test.js
 ```
 
-To run a single test file:
-
-```bash
-cd personal_marketing && npx vitest run spec/path/to/YourFile.test.js
-```
-
-**Note:** Edwin must be available at `personal_marketing/edwin/` before running tests. If it is not present, copy it first:
-
-```bash
-cp -r source personal_marketing/edwin
-```
+The `personal_marketing_example` service mounts `./personal_marketing` and `./source` (as `edwin`), so no manual setup is needed.
 
 ## Code Organization
 
