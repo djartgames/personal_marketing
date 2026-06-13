@@ -10,8 +10,8 @@ describe('game', () => {
     expect(game.title).toBe('Personal Marketing');
   });
 
-  it('has six locations', () => {
-    expect(game.locations.size).toBe(6);
+  it('has seventeen locations', () => {
+    expect(game.locations.size).toBe(17);
   });
 
   it('starts at living room', () => {

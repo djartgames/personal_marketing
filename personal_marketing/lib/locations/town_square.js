@@ -12,6 +12,9 @@ class TownSquare extends Location {
         living_room: { target: 'living_room', label: 'Home' },
         coffee_shop: { target: 'coffee_shop' },
         grocery: { target: 'grocery' },
+        downtown: { target: 'downtown', label: 'Downtown' },
+        marketing_company: { target: 'marketing_company', label: 'Marketing Company' },
+        photographer: { target: 'photographer', label: 'Photographer' },
       },
     });
   }

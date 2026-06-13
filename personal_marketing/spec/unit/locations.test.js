@@ -69,11 +69,11 @@ describe('townSquare', () => {
     expect(townSquare.name).toBe('Town Square');
   });
 
-  it('has paths to living room, coffee shop, and grocery', () => {
+  it('has paths to living room, coffee shop, grocery, downtown, marketing company, and photographer', () => {
     expect(Object.keys(townSquare.paths)).toEqual(
-      expect.arrayContaining(['living_room', 'coffee_shop', 'grocery'])
+      expect.arrayContaining(['living_room', 'coffee_shop', 'grocery', 'downtown', 'marketing_company', 'photographer'])
     );
-    expect(Object.keys(townSquare.paths)).toHaveLength(3);
+    expect(Object.keys(townSquare.paths)).toHaveLength(6);
   });
 });
 
