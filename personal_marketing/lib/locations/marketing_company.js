@@ -6,7 +6,7 @@ class MarketingCompany extends Location {
     super({
       id: 'marketing_company',
       name: 'Marketing Company',
-      description: "The marketing company Anastacia inherited from her father.",
+      description: 'The marketing company Anastacia inherited from her father.',
       image: marketingCompanyImage,
       paths: {
         town_square: { target: 'town_square', label: 'Town Square' },
